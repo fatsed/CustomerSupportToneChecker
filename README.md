@@ -35,10 +35,7 @@ CustomerSupportToneChecker/
 ├── app/
 │   └── gradio_tone_checker.py           ← optional standalone app
 ├── README.md
-
-
----
-
+```
 ## 🧾 Dataset
 
 - Location: `dataset/tone_dataset.csv`  
