@@ -1,207 +1,209 @@
-# 💬 Customer Support Tone Checker (Persian)
+# Persian Customer Support Tone Checker
 
-A small machine learning project for detecting the tone of Persian customer support messages.
+A machine learning project for classifying the tone of Persian customer support messages.
 
-The model classifies each message into one of three tone categories:
+The system predicts one of three tone categories:
 
 - `polite`
 - `semi_polite`
 - `impolite`
 
-This project was built as a university project and as practice for working with Persian text preprocessing, TF-IDF features, machine learning classifiers, and a simple Gradio interface.
----
+This project was developed as a university coursework project to practise Persian text preprocessing, TF-IDF feature extraction, machine learning classification, model evaluation, and interface development with Gradio.
 
-## 📌 Project Overview
+## Project Overview
 
-Customer support messages can have different tones. Some messages are polite, some are neutral or semi-polite, and some may sound impolite.
+Customer support messages can express different levels of politeness. The goal of this project is to build a simple NLP pipeline that processes Persian messages and predicts their tone.
 
-The goal of this project is to build a simple text classification pipeline that can analyze Persian customer support messages and predict their tone.
+The project includes:
 
-This project includes:
-
+- A small Persian customer support dataset
 - Persian text preprocessing
 - TF-IDF feature extraction
-- Training and comparing multiple machine learning models
+- Training and comparison of multiple classifiers
 - Model evaluation
-- A simple Gradio interface for testing messages
----
+- Saved models for reuse
+- A Gradio interface for testing new messages
+- Optional Hugging Face API comparison
 
-## 📁 Project Structure
+## Project Structure
 
+```text
 CustomerSupportToneChecker/
+├── dataset/
+│   └── tone_dataset.csv
+├── models/
+│   ├── tfidf_vectorizer.pkl
+│   ├── svm_linearsvc.pkl
+│   ├── logistic_regression.pkl
+│   ├── random_forest.pkl
+│   └── decision_tree.pkl
+├── notebooks/
+│   ├── 01_build_dataset.ipynb
+│   └── 02_tone_detection_api_ui.ipynb
+├── .gitignore
+├── LICENSE
+├── README.md
+└── requirements.txt
+```
 
-- dataset/
-  - tone_dataset.csv
+## Dataset
 
-- models/
-  - tfidf_vectorizer.pkl
-  - svm_linearsvc.pkl
-  - logistic_regression.pkl
-  - random_forest.pkl
-  - decision_tree.pkl
+The dataset is stored in:
 
-- notebooks/
-  - 01_build_dataset.ipynb
-  - 02_ToneDetection_api_ui.ipynb
+```text
+dataset/tone_dataset.csv
+```
 
-- README.md
----
+It contains 300 Persian customer support messages divided into three classes:
 
-## 🗂️ Dataset
+| Label | Description |
+|---|---|
+| `polite` | Polite and respectful messages |
+| `semi_polite` | Neutral or partly polite messages |
+| `impolite` | Impolite or demanding messages |
 
-The dataset is located in:
+The dataset contains the following columns:
 
-`dataset/tone_dataset.csv`
-
-It contains 300 Persian customer support messages.
-
-The messages are divided into three labels:
-
-- `polite`: polite customer support message
-- `semi_polite`: partly polite or neutral message
-- `impolite`: impolite customer support message
-
-Dataset columns:
-
-- `id`: unique message ID
+- `id`: unique message identifier
 - `text`: Persian customer support message
 - `label`: tone category
----
 
-## 🧹 Text Preprocessing
+The dataset was created for educational purposes and is not intended to represent all real-world customer support conversations.
 
-The preprocessing step includes:
+## Text Preprocessing
 
-- Normalizing Persian text
-- Removing non-Persian characters
-- Removing digits
-- Tokenizing text
-- Removing stopwords
-- Removing very short tokens
+The preprocessing pipeline includes:
 
-I did not use stemming or lemmatization in this project because they can sometimes change the structure or meaning of Persian words.
----
+- Persian text normalization
+- Removal of digits and non-Persian characters
+- Tokenization
+- Stopword removal
+- Removal of very short tokens
+- Duplicate removal
 
-## 🔢 Feature Extraction
+Stemming and lemmatization were not used because they may alter the structure or meaning of some Persian words.
 
-The project uses TF-IDF to convert Persian text into numerical features.
+## Feature Extraction
 
-Main TF-IDF settings:
+The project uses TF-IDF to convert processed text into numerical features.
 
-- `ngram_range=(1, 2)`
-- `min_df=2`
-- `max_features=5000`
-- `sublinear_tf=True`
+Main configuration:
 
-The saved TF-IDF vectorizer is stored in:
+```python
+ngram_range=(1, 2)
+min_df=2
+max_features=5000
+sublinear_tf=True
+```
 
-`models/tfidf_vectorizer.pkl`
----
+## Machine Learning Models
 
-## 🤖 Machine Learning Models
+The following models were trained and compared:
 
-The following machine learning models were trained and compared:
-
-- SVM / LinearSVC
+- LinearSVC
 - Logistic Regression
 - Random Forest
 - Decision Tree
 
-Performance summary:
+Approximate evaluation results:
 
-- SVM / LinearSVC: Accuracy around 0.93, Macro F1 around 0.93
-- Logistic Regression: Accuracy around 0.93, Macro F1 around 0.93
-- Random Forest: Accuracy around 0.88
-- Decision Tree: Accuracy around 0.80
+| Model | Accuracy | Macro F1 |
+|---|---:|---:|
+| LinearSVC | 0.93 | 0.93 |
+| Logistic Regression | 0.93 | 0.93 |
+| Random Forest | 0.88 | — |
+| Decision Tree | 0.80 | — |
 
-SVM and Logistic Regression performed best in this project.
----
+LinearSVC and Logistic Regression achieved the strongest results on the project dataset.
 
-## 🖥️ Gradio Interface
+## Gradio Interface
 
-This project includes a simple Gradio interface for testing Persian customer support messages.
+The project includes a Gradio interface that supports:
 
-The interface supports:
-
-- Single message prediction
+- Single-message prediction
 - Model selection
-- Comparing model outputs
+- Comparison between trained models
 - Sample Persian messages
 - Right-to-left Persian text display
-- Optional Hugging Face API integration
+- Optional Hugging Face API comparison
 
-The Gradio interface is available inside:
+The interface is available in:
 
-`notebooks/02_ToneDetection_api_ui.ipynb`
+```text
+notebooks/02_tone_detection_api_ui.ipynb
+```
 
----
+## Installation
 
-## 🚀 How to Run
+Clone the repository:
 
-### 1. Clone the repository
+```bash
+git clone https://github.com/fatsed/CustomerSupportToneChecker.git
+cd CustomerSupportToneChecker
+```
 
-`git clone https://github.com/fatsed/CustomerSupportToneChecker.git`
+Create a virtual environment:
 
-### 2. Go to the project folder
+```bash
+python -m venv .venv
+```
 
-`cd CustomerSupportToneChecker`
+Activate it on Linux or macOS:
 
-### 3. Install the required libraries
+```bash
+source .venv/bin/activate
+```
 
-`pip install pandas scikit-learn hazm gradio joblib`
+Activate it on Windows:
 
-### 4. Open the notebook
+```bash
+.venv\Scripts\activate
+```
 
-Open this notebook:
+Install the dependencies:
 
-`notebooks/02_ToneDetection_api_ui.ipynb`
+```bash
+pip install -r requirements.txt
+```
 
-Then run the cells to load the models and test the Gradio interface.
+## Usage
 
----
+Open the following notebook:
 
-## ✨ Example Use
+```text
+notebooks/02_tone_detection_api_ui.ipynb
+```
 
-You can enter a Persian customer support message, and the model will predict whether the tone is:
+Run the cells in order to load the dataset, preprocessing functions, saved models, and Gradio interface.
 
-- polite
-- semi-polite
-- impolite
+The notebook can also be opened directly in Google Colab.
 
-This can be useful as a simple practice project for learning text classification and basic NLP concepts.
----
+## Limitations
 
-## ⚠️ Notes
+This is an educational project and not a production-ready moderation system.
 
-This is a small educational project and not a production-level system.
+Current limitations include:
 
-Some limitations:
+- The dataset contains only 300 messages.
+- The examples were created for coursework rather than collected from real customer support conversations.
+- The `semi_polite` class may overlap with the other two classes.
+- Evaluation was performed on a small test set.
+- Performance on real-world Persian messages may be lower.
+- The model should not be used for automated decisions without human review.
 
-- The dataset is small.
-- The dataset was created for practice.
-- The `semi_polite` class can sometimes overlap with both `polite` and `impolite`.
-- The model may not generalize well to real-world customer support data without a larger and more diverse dataset.
----
-
-## 📚 What I Learned
-
-Through this project, I practiced:
-
-- Working with Persian text data
-- Building a simple NLP pipeline
-- Using TF-IDF for text classification
-- Training different machine learning models
-- Comparing model performance
-- Saving and loading trained models
-- Creating a simple Gradio demo
----
-
-## 🛠️ Tech Stack
+## Technologies
 
 - Python
 - Pandas
+- NumPy
 - Scikit-learn
 - Hazm
 - Gradio
 - Joblib
+- Matplotlib
+- Seaborn
 - Jupyter Notebook
+
+## License
+
+This project is available under the MIT License.
